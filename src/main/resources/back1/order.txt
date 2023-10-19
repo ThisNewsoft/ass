@@ -1,0 +1,6 @@
+115 8 telephone-holder 13
+114 9 telephone-holder 4
+115 10 ftieghter 12
+115 11 fitteghter 3
+115 12 fittegheter 4
+115 13 fittegher 4
