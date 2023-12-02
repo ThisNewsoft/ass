@@ -13,8 +13,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 public class Customer {
     private int id;
@@ -132,9 +135,56 @@ public class Customer {
         return matcher.find();
     }
 
+    public boolean isCustomer() {
+        boolean flag=false;
+        for(Customer worker:Data.getCustomers()){
+            if(worker.getId()==this.id) {
+                flag = true;
+                break;
+            }
+        }
+        return flag;
+    }
+
+
+
+    public void sendEmail(String title,String message,String msg){
+        final String user = "lamaqawareeq123@gmail.com";
+        final String emailPass = "lama159357";
+        String to = this.getEmail();
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.starttls.enable", "true");
+        Session session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                    @Override
+                    protected javax.mail.PasswordAuthentication getPasswordAuthentication(){
+                        return new javax.mail.PasswordAuthentication(user,emailPass);
+                    }
+
+                });
+        try {
+            Message message1 = new MimeMessage(session);
+            message1.setFrom(new InternetAddress(user));
+            message1.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            message1.setSubject(title);
+            message1.setText(message);
+            Transport.send(message1);
+            logger.info(msg);
+        } catch (Exception ignored) {
+            //ignored
+        }
 
 
     }
+
+    static Logger logger = Logger.getLogger(Customer.class.getName());
+
+}
+
+
 
 
 

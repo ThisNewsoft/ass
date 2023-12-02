@@ -22,4 +22,4 @@ Feature: record customer information
     And customer password="ibrahim"
     When I chose to record new customer
     Then I show a message that the email is already taken
-    And I have option to reenter new email
+    And I have option to reenter new email="hibah@gmail.com"

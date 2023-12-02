@@ -10,10 +10,8 @@ Feature: User login
     Then the message will be display "<result>"
     And  the user move to the "<page>"
 
-
-
     Examples:
       | email                | password       | rul      | result                 | page         |
       | adminClean@gmail.com | adminCSS       | admin    | Admin login success    | adminPage    |
-      | alaa@gmail.com       | alaa20         | customer | Customer login success | customerPage |
+      | lama@gmail.com       | 1234           | admin    | Admin login success    | adminPage    |
       | another email        | wrong password | none     | login fail             | LoginPage    |

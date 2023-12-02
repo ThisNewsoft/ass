@@ -66,8 +66,7 @@ public class Login {
     }
     public void login() {
 
-      //  System.out.print("dfghj");
-        if (getRul().equals("admin")) {
+          if (getRul().equals("admin")) {
             AdminLogin admin = new AdminLogin();
             admin.adminPage();
         }

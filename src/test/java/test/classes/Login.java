@@ -1,3 +1,4 @@
+
 package test.classes;
 
 import entities.Admin;
@@ -53,16 +54,18 @@ public class Login {
             AdminLogin adminLogin=new AdminLogin();
             admin.setEmail(login.getEmail());
             assertEquals(admin.getEmail(), email);
-           //adminLogin.setAdmin(admin);
+            adminLogin.setAdmin(admin);
             login.adminLogin();
             login.login();
-          //  test();
-        } else if (page.equals("customerPage")) {
+
+
+        }else if (page.equals("customerPage")) {
             login.customerLogin();
+
             login.setRul("customer");
             String rul= login.getRul();
             login.login();
-        //    test2();
+
         }
         else {
             assertFalse(login.isCorrectInfo());

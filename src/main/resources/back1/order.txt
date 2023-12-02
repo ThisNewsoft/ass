@@ -4,3 +4,6 @@
 115 11 fitteghter 3
 115 12 fittegheter 4
 115 13 fittegher 4
+115 14 telephone-holder 2
+115 15 telephone-holder 2
+115 15 fittegheter 1

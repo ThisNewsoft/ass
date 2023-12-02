@@ -5,7 +5,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import entities.Customer;
 import entities.Data;
+import entities.Installation;
+import entities.InstallerAvailable;
 
+import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -14,13 +18,11 @@ import java.util.logging.Logger;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-
+import java.util.NoSuchElementException;
+import java.time.format.DateTimeParseException;
 public class CustomerLogin {
     private Customer customer;
-
-    public Customer getCustomer() {
-        return customer;
-    }
+    private InstallerAvailable worker;
     static String path = "src/main/resources/back1/";
     static Logger logger = Logger.getLogger(Data.class.getName());
 
@@ -29,11 +31,13 @@ public class CustomerLogin {
         System.err.println("If you want to see your orders enter number 2");
         System.err.println("If you want to see your information enter number 3");
         System.err.println("If you want to Update your information enter number 4");
-        System.err.println("If you want to see all product 5");
+        System.err.println("If you want to see all product enter number 5");
         System.err.println("If you want to logout enter number 6");
+        System.err.println("If you want request installation services enter number 7");
 
 
     }
+
     private static String readFromFil(String fileName) {
         StringBuilder content = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
@@ -42,41 +46,17 @@ public class CustomerLogin {
                 content.append(line).append("\n");
             }
         } catch (IOException e) {
-            // Handle file reading error
+
         }
         return content.toString();
     }
-
+    public Customer getCustomer() {
+        return customer;
+    }
     private static void writeToFil(String fileName, String content) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
             bw.write(content);
         } catch (IOException e) {
-            // Handle file writing error
-        }
-    }
-
-
-
-    public static List<String> getObjects(String fileName) {
-        List<String> strings = new ArrayList<>();
-        try (RandomAccessFile raf = new RandomAccessFile(path + fileName + ".txt", "rw")) {
-            raf.seek(0);
-            String s;
-            while ((s = raf.readLine()) != null) {
-                strings.add(s);
-            }
-        } catch (Exception e) {//ignored
-        }
-        return strings;
-    }
-
-    public static void storeObject(String fileName, Object object) {
-        try (RandomAccessFile raf = new RandomAccessFile(path + fileName + ".txt", "rw")) {
-
-            raf.seek(raf.length());
-            raf.write(object.toString().getBytes());
-        } catch (Exception e) {
-            logger.info("ة");
 
         }
     }
@@ -84,37 +64,6 @@ public class CustomerLogin {
 
 
 
-
-
-
-
-    private static String readFromFile(String fileName) {
-        StringBuilder content = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return content.toString();
-    }
-
-
-
-
-
-
-
-
-private static void writeToFile(String fileName, String data) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            writer.write(data);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void customerPage(){
         System.err.println("Welcome To The Customer Dashboard ");
@@ -133,17 +82,17 @@ private static void writeToFile(String fileName, String data) {
 
 
                     String path = "src/main/resources/back1/";
-
+                    try {
                     Scanner scanner = new Scanner(System.in);
                     System.err.println("Enter the name of Product:");
                     String inputData = scanner.nextLine();
 
 
-                    System.err.println("Enter the id of Product:");
+                    System.err.println("Enter the id of order:");
                     String inp = scanner.nextLine();
 
 
-                    System.err.println("Enter the number of Product:");
+                    System.err.println("Enter the number of Product to order:");
                     String input = scanner.nextLine();
 
                     String fileName = path + "order.txt";
@@ -152,6 +101,7 @@ private static void writeToFile(String fileName, String data) {
                     String currentContent = readFromFil(fileName);
 
                     System.err.println("If you want to confirm tho order enter 1 else enter 2 ");
+
                     int x = in.nextInt();
 
                     if (x==1) {
@@ -171,13 +121,18 @@ private static void writeToFile(String fileName, String data) {
 
 
                     }
+                    } catch (NoSuchElementException e) {
+
+                        System.err.println("Input not available. Please make sure to provide valid input.");
+                    }
                 }
 
 
                 else if (option == 2) {
+
                     int customerUniqueId = customer.getId();
                     String filePath = "src/main/resources/back1/order.txt";
-                    System.err.println("Customer Name Customer email Order ID product name number of Products:");
+                    System.err.println("CustomerName  email OrderID productName number of Products:");
 
                     try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
                         String line;
@@ -197,7 +152,7 @@ private static void writeToFile(String fileName, String data) {
                             }
                         }
                     } catch (IOException e) {
-                        // Handle the IOException
+                        //handle
                     }
                 }
 
@@ -210,44 +165,9 @@ private static void writeToFile(String fileName, String data) {
                 }
                 else if (option == 4) {
                     men();
-                    int x = in.nextInt();
-                    String attribute = "";
-                    String  value= "";
+                    int y = in.nextInt();
+                    update(y);
 
-                    if (x == 1) {
-                     System.err.println("Enter new Phone number");
-                   Scanner i = new Scanner(System.in);
-                       value = i.nextLine();
-                    attribute = "phone";
-
-                    updateMsg();
-                       System.err.println("Done");
-
-
-
-                    }
-
-
-                    else if (x == 2) {
-                        System.err.println("Enter New Address");
-                        Scanner i = new Scanner(System.in);
-                        value = i.nextLine();
-                        attribute = "address";
-                        updateMsg();
-                        System.err.println("Done");
-                    }
-                    else if (x == 3) {
-                        System.err.println("Enter new Password");
-                        Scanner i = new Scanner(System.in);
-                        value = i.nextLine();
-                        attribute = "password";
-
-                        updateMsg();
-                        System.err.println("Done");
-
-                    }
-
-                    updateInfo(attribute, value);
                 } else if (option == 6) {
                     break;
                 }
@@ -255,7 +175,11 @@ private static void writeToFile(String fileName, String data) {
 
                 else if(option==5) {
 
-
+                    System.err.println("****************************************************Installation Appointments**********************************************************");
+                    System.err.println("ProductName  NamePicture  State  " + " Category"
+                            +
+                            "Coast \t\t\t\t\t" +
+                            "");
 
                             String fileName = "src/main/resources/back1/product";
 
@@ -277,6 +201,68 @@ private static void writeToFile(String fileName, String data) {
                             }
                         }
 
+                else if(option==7) {
+
+                    System.err.println("Enter The Product Name to install ");
+                    Scanner scanner = new Scanner(System.in);
+                    String product = scanner.nextLine();
+
+                    System.err.println("Enter The Make of Your Car  ");
+                    String make = scanner.nextLine();
+
+                    System.err.println("Enter The Date you want  ");
+                    String date = scanner.nextLine();
+                 LocalDate  newDate =   LocalDate.parse(date);
+
+                    System.err.println("****************************************************Installation Appointments**********************************************************");
+                    System.err.println("InstallerID        InstallerName          State          Date          Time ")  ;
+
+
+                    String filePath = "src/main/resources/back1/Installation.txt";
+
+                    try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            String[] parts = line.split(",");
+
+                            if (parts.length > 0) {
+                                try {
+
+                                   LocalDate installationDate = LocalDate.parse(parts[3]);
+                                   String  available =parts[2];
+
+                                    if (newDate.equals(installationDate) && available.equals("available")) {
+
+                                      //  LocalDate  time =   LocalDate.parse( parts[4]);
+
+                                        //String  timing =parts[5];
+
+                                        System.out.println( parts[0] +"  "+"  " + parts[1] +"  "+"  "+ parts[2]  +"    " + parts[3] +"    " + parts[4] +"    " + parts[5]);
+
+
+                                    }
+
+
+
+                                } catch  (DateTimeParseException | NumberFormatException e)  {
+                                    // Handle the case where the first part is not a valid integer (e.g., empty string)
+                                }
+                            }
+                        }
+
+                    } catch (IOException e) {
+                        //handle
+                    }
+
+                        System.err.println("Choice The installation Number you want to installer  ");
+                        String id = scanner.nextLine();
+                        int newId = Integer.parseInt(id);
+                        searchInsallation(newId, newDate, product, make);
+                        // addInsallation(newId,product,make,newDate,time);}
+
+
+
+                }
 
 
 
@@ -295,6 +281,9 @@ private static void writeToFile(String fileName, String data) {
 
 
 
+
+
+
     public void men(){
         System.err.println("If you want to update your Phone enter number 1");
         System.err.println("If you want to update your Address enter number 2");
@@ -303,6 +292,9 @@ private static void writeToFile(String fileName, String data) {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+    public void setInstaller(InstallerAvailable customer) {
+        this.worker = worker;
     }
 
     public void updateMsg() {
@@ -320,4 +312,179 @@ private static void writeToFile(String fileName, String data) {
 
 
     }
+
+
+    public void searchInsallation( int id,LocalDate date,String product, String make ) {
+
+        String path = "src/main/resources/back1/";
+        String fileName = path + "Installation.txt";
+        String currentContent = readFromFile(fileName);
+        String[] lines = currentContent.split("\n");
+      //  String available = "not-available";
+
+        for (int i = 0; i < lines.length; i++) {
+            String[] parts = lines[i].split(",");
+
+            if (parts.length > 0) {
+                try {
+                    int currentId = Integer.parseInt(parts[0].trim());
+                    String currentAvailable = parts[2].trim();
+                    LocalDate installationDate = LocalDate.parse(parts[3].trim());
+
+                    if (currentId == id && currentAvailable.equals("available") && date.equals(installationDate)) {
+                        LocalTime time = LocalTime.parse(parts[4]);
+
+                        String timing = parts[5];
+                        addInsallation(id,product,make,date,time,timing);
+                    }
+                } catch (NumberFormatException | DateTimeParseException e) {
+                    // Handle the case where parsing fails
+                    System.err.println("Error parsing id or date: " + e.getMessage());
+                }
+            }
+        }
+
+    }
+
+
+
+
+    public void addInsallation( int id,String product, String make,LocalDate date,LocalTime time,String timing ){
+
+        String path = "src/main/resources/back1/";
+        String fileName = path + "InstallationApointments.txt";
+
+
+
+        String  customerName = customer.getFullName();
+        String currentContent = readFromFil(fileName);
+
+            String newContent = currentContent +id + "," +product + "," + make + "," + customerName+ ","+date + "," +time + "," +timing + "\n";
+            writeToFil(fileName, newContent);
+
+            System.out.println("Done. An email has been sent to you to confirm your order\n ");
+       updateState(id, date);
+
+
+
+    }
+
+    public void updateState(int id, LocalDate date) {
+        String path = "src/main/resources/back1/";
+        String fileName = path + "Installation.txt";
+        String currentContent = readFromFile(fileName);
+        String[] lines = currentContent.split("\n");
+        String available = "not-available";
+
+        for (int i = 0; i < lines.length; i++) {
+            String[] parts = lines[i].split(",");
+
+            if (parts.length > 0) {
+                try {
+                    int currentId = Integer.parseInt(parts[0].trim());
+                    String currentAvailable = parts[2].trim();
+                    LocalDate installationDate = LocalDate.parse(parts[3].trim());
+
+                    if (currentId == id && currentAvailable.equals("available") && date.equals(installationDate)) {
+                        lines[i] = lines[i].replace("available", available);
+                        notifyCustomer(customer);
+                    }
+                } catch (NumberFormatException | DateTimeParseException e) {
+                    // Handle the case where parsing fails
+                    System.err.println("Error parsing id or date: " + e.getMessage());
+                }
+            }
+        }
+
+        // Rebuild the content
+        String updatedContent = String.join("\n", lines);
+        writeToFile(fileName, updatedContent);
+    }
+
+
+    private String readFromFile(String fileName) {
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+        }
+        return content.toString();
+    }
+
+    private void writeToFile(String fileName, String content) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
+            bw.write(content);
+        } catch (IOException e) {
+            System.err.println("Error writing to the file: " + e.getMessage());
+        }
+    }
+
+
+
+
+
+
+    public void update(int y){
+    String attribute = "";
+    String  value= "";
+
+                    if (y == 1) {
+        System.err.println("Enter new Phone number");
+        try {
+            Scanner i = new Scanner(System.in);
+            if (i.hasNextLine()) {
+                value = i.nextLine();
+                attribute = "phone";
+            } else {
+                System.err.println("No input available. Please provide valid input.");
+            }
+        } catch (NoSuchElementException e) {
+            System.err.println("Error while reading input: " + e.getMessage());
+        }
+        updateMsg();
+        System.err.println("Done");
+    }
+
+
+
+                    else if (y == 2) {
+        System.err.println("Enter New Address");
+        try {   Scanner i = new Scanner(System.in);
+            value = i.nextLine();
+            attribute = "address";
+        } catch (NoSuchElementException e) {
+
+            System.err.println("Input not available. Please make sure to provide valid input.");
+        }updateMsg();
+        System.err.println("Done");
+    }
+                    else if (y == 3) {
+        try{ System.err.println("Enter new Password");
+            Scanner i = new Scanner(System.in);
+            value = i.nextLine();
+            attribute = "password";
+
+        } catch (NoSuchElementException e) {
+
+            System.err.println("Input not available. Please make sure to provide valid input.");
+        } updateMsg();
+        System.err.println("Done");
+
+    }
+
+    updateInfo(attribute, value);}
+
+
+    public void notifyCustomer(Customer customer) {
+        customer.sendEmail("Your request has been installed",
+                "Hello Mr/Ms "+customer.getFullName()+", you can take it after 3 day",
+                "");
+
+    }
+
+
 }

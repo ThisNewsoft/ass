@@ -1,5 +1,7 @@
 package entities;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class Product {
@@ -15,15 +17,23 @@ public class Product {
     public Product() {
 
     }
+    public Product(String name, String pictureName, String material,Category category,Double cost, int orderId) {
+
+        this.name =name;
+        this.pictureName= pictureName;
+        this.material = material;
+        this.category=category;
+        this.cost=cost;
+        this.orderId=orderId;
+    }
     private Product(Builder builder) {
         setName(builder.name);
         setPictureName(builder.pictureName);
-        //setDimension(builder.dimension);
-      //  setNumOfSofa(builder.numOfSofa);
+
         setMaterial(builder.material);
-      //  setSpecialTreatment(builder.specialTreatment);
+
         setCategory(builder.category);
-       // setCover(builder.cover);
+
         setCost(builder.cost);
         setOrderId(builder.orderId);
 
@@ -88,14 +98,6 @@ public class Product {
         return Objects.hash(name, pictureName, material, category,cost, orderId);
     }
 
-   // public static double carpetCost(Double dimension){
-    //    double []costCat = ProductFile.getCostOfCategory();
-    //    return dimension * costCat[0];
-   // }
-  //  public static double sofaCost(Integer numOfSofa){
-       // double []costCat = ProductFile.getCostOfCategory();
-    //    return numOfSofa * costCat[1];
-  //  }
 
     public static double coverCost(String sizeOfCover){
         double costOfProduct ;
@@ -125,12 +127,11 @@ public class Product {
         int orderId;
         private String name;
         private String pictureName;
-       // private Double dimension;
-        // private Integer numOfSofa;
+
         private String material;
-        //private String specialTreatment;
+
         private Category category;
-      //  private SizeOfCover cover;
+        //  private SizeOfCover cover;
         private Double cost;
         private Builder() {
             name=null;

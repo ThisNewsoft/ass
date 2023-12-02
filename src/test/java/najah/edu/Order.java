@@ -2,31 +2,24 @@ package najah.edu;
 
 import entities.Customer;
 import entities.Data;
-//import entities.Worker;
+
 import entities.Product;
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class Order {
-    private int id;
     private Customer customer;
+    private int id;
+
+
     private String name;
-   // private LocalDate date;
+
     private double total;
-  //  private boolean paid;
+
     private  List<Product> products;
-   // private Worker worker;
-   // public Worker getWorker() {
-       // return worker;
-  //  }
-  //  public void setWorker(Worker worker) {
-   //     this.worker = worker;
-   // }
-    //public boolean getPaid() {
-      //  return paid;
-   // }
+
    private int number;
     @Override
     public String toString() {
@@ -36,8 +29,8 @@ public class Order {
     public  String getString(){
         String threeSpace="\t\t\t";
         StringBuilder str;
-        str = new StringBuilder(this.getId() + "\t\t" + this.getCustomer().getFullName() + threeSpace+
-               threeSpace+threeSpace + this.getStatus() + threeSpace + this.getName() +
+        str = new StringBuilder( this.getCustomer().getFullName() + threeSpace+
+            this.getName() +
                 threeSpace+ "\n");
         for (Product product:this.getProducts()){
           str.append(product.toString()).append("  ").append("\n");
@@ -46,15 +39,10 @@ public class Order {
         return str.toString();
     }
 
-  //  public LocalDate getDate() {
-   //     return date;
-   // }
     public Order() {
         products=new ArrayList<>();
     }
-   // public void setDate(LocalDate date) {
-    //    this.date = date;
-  //  }
+
     public void setNumber(int number) {
         this.number = number;
     }
@@ -73,14 +61,6 @@ public class Order {
     public int getStatus() {
         return number;
     }
-  // public Order(List<Product> products, String status) {
-  //    this.id= Data.getOrderId();
-     // this.date=LocalDate.now();
-   //    this.products=products;
- //    this.status=status;
-  //     this.name=getName();
-
-  //  }
 
    public void setName(String name) {
         this.name = name;
@@ -103,13 +83,8 @@ public class Order {
     }
 
 
-    public double getTotal(){
-        return total;
-    }
-    public void displayStatus() {
-        logger.info("The Order Status is: "+this.getStatus());
-    }
-    static Logger logger = Logger.getLogger(Order.class.getName());
+
+
 
 
 }

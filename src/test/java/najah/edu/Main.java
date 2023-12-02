@@ -7,10 +7,9 @@ import java.util.logging.Logger;
 public class Main {
     static Logger logger = Logger.getLogger(Main.class.getName());
     public static void menu(){
-          System.err.println("************Welcome to Car accessories company System************");
-        System.err.println("enter number 1 to login ");
-        System.err.println("enter number 2 to creat account for new customers");
-
+        System.err.println("************Welcome to Car accessories company System************");
+        System.err.println("If you want to login enter number 1");
+        System.err.println("If you are new customer enter number 2");
 
     }
 
@@ -44,7 +43,7 @@ public class Main {
 
         Scanner in=new Scanner(System.in);
 
-        System.err.println("***************Welcome to log in page ****************");
+        System.err.println("***************Welcome Back***************");
         while(true) {
             System.err.println("Enter your email ");
             String email = in.nextLine();
