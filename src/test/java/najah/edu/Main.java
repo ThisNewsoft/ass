@@ -19,7 +19,6 @@ public class Main {
 
         Scanner in = new Scanner(System.in);
         int option = 0;
-
         try {
             menu();
             option = in.nextInt();
